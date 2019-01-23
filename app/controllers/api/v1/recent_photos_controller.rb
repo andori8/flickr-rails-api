@@ -7,8 +7,7 @@ class Api::V1::RecentPhotosController < ApplicationController
 
   def show
     photo_id = params[:id]
-    @photo = RestClient::Request.execute(method: "get",
-      url: "https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=" + ENV['API_KEY'] + "&photo_id=#{photo_id}&format=json&nojsoncallback=1")
-      render json: @photo
+    @photo = Photo.pull_info(photo_id)
+    render json: @photo
   end
 end
