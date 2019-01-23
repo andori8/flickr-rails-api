@@ -18,8 +18,11 @@ ActiveRecord::Schema.define(version: 2019_01_01_011137) do
   create_table "photos", force: :cascade do |t|
     t.text "url"
     t.text "title"
-    t.integer "photo_id"
-    t.integer "owner_id"
+    t.bigint "server"
+    t.bigint "farm"
+    t.bigint "secret"
+    t.bigint "photo_id"
+    t.text "owner"
   end
 
 end
