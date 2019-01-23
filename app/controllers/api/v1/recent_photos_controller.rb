@@ -1,6 +1,6 @@
 class Api::V1::RecentPhotosController < ApplicationController
   def index
-    Photo.api_to_database
+    Photo.pull_recent
     @photos = Photo.all
     render json: @photos
   end

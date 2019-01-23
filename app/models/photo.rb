@@ -1,7 +1,8 @@
 class Photo < ApplicationRecord
   validates_presence_of :photo_id, :owner, :secret, :farm, :server, :title, :url
 
-  def self.api_to_database
+  def self.pull_recent
+    self.find_each(&:destroy)
     @photos = RestClient::Request.execute(method: "get",
       url: "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=" + ENV['API_KEY'] + "&extras=url_m&format=json&nojsoncallback=1")
     @info = JSON.parse(@photos)["photos"]["photo"]
