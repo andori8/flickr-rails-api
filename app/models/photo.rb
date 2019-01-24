@@ -34,11 +34,11 @@ class Photo < ApplicationRecord
   end
 
   def self.search_photos(search)
+    self.delete_all
     @photos = RestClient::Request.execute(method: "get",
       url: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + ENV['API_KEY'] + "&text=#{search}&extras=url_m&format=json&nojsoncallback=1")
     @info = JSON.parse(@photos)["photos"]["photo"]
-    @filtered_photos = @info.select{ |photo| photo["title"].include?(search) }
-    @filtered_photos.each do |photo|
+    @info.each do |photo|
       check_photo = self.find_by(photo_id: photo["id"])
       if !check_photo
         new_photo = self.new do |key|
